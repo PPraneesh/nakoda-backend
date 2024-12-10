@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import { getAuth } from "../config/sheets";
 
-const SPREADSHEET_ID = "1uQ3BhcS1glbv2cZbD6n0xP4z7BkkOKkwUn1-cw_8YWk";
+import { env } from "../config/env";
 
 async function getGoogleSheet(auth: any) {
   const client = await auth.getClient();
@@ -13,7 +13,7 @@ async function findRowByCustomerId(customerId: string): Promise<number | null> {
   const sheets = await getGoogleSheet(auth);
   try {
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
+      spreadsheetId: env.SPREADSHEET_ID,
       range: "Sheet1!A:A", // Only search in customer ID column
       valueRenderOption: "UNFORMATTED_VALUE",
     });
@@ -43,7 +43,7 @@ const appendOrUpdateRow = async (values: any[][]): Promise<any> => {
     if (rowIndex) {
       // Update existing row
       const request = {
-        spreadsheetId: SPREADSHEET_ID,
+        spreadsheetId: env.SPREADSHEET_ID,
         range: `Sheet1!A${rowIndex}`, // Start from the found row
         valueInputOption: "USER_ENTERED",
         resource: {
@@ -56,7 +56,7 @@ const appendOrUpdateRow = async (values: any[][]): Promise<any> => {
     } else {
       // Append new row
       const request = {
-        spreadsheetId: SPREADSHEET_ID,
+        spreadsheetId: env.SPREADSHEET_ID,
         range: "Sheet1!A:Z",
         valueInputOption: "USER_ENTERED",
         resource: {
