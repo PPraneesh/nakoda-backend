@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-const getGoldRate = (req: Request, res: Response) => {
+const getGoldRate = (_: Request, res: Response) => {
   res.send("Gold Rate is 50000");
 };
 
