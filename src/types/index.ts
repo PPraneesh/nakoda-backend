@@ -2,7 +2,7 @@ interface StoreData {
   customerId: string;
   email?: string;
   name?: string;
-  phno?: string;
+  phone?: string;
   cartIds: string[];
   wishlistIds: string[];
   visitedProducts: string[];
@@ -21,4 +21,24 @@ interface StoreData {
   contactAsked: boolean;
 }
 
-export { StoreData };
+interface CustomizeRequestTypes {
+  name: string;
+  email: string;
+  phone: string;
+  comments: string;
+  productId?: string | null;
+  file?: File | null;
+  createdAt: string;
+}
+
+interface ContactRequestTypes {
+  name: string;
+  email: string;
+  phone: string;
+  lookingFor?: string;
+  reason?: string;
+  message?: string;
+  createdAt: string;
+}
+
+export { StoreData, CustomizeRequestTypes, ContactRequestTypes };

@@ -15,7 +15,7 @@ const setCustomerData = async (req: Request, res: Response): Promise<void> => {
         const values = {
             email: customerData?.email || '',
             name: customerData?.name || '',
-            phno: customerData?.phno || '',
+            phno: customerData?.phone || '',
             ...customerData
         };
             

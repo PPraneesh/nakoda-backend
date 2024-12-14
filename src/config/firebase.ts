@@ -1,6 +1,7 @@
 import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from "firebase-admin/firestore";
 import { env } from "./env";
+import { getStorage } from "firebase-admin/storage";
 
 const serviceAccountKey:ServiceAccount = {
     projectId: env.FIREBASE_PROJECT_ID,
@@ -9,11 +10,14 @@ const serviceAccountKey:ServiceAccount = {
 }
 
 
-initializeApp({credential:cert(serviceAccountKey)});
-const db = getFirestore();
+const app = initializeApp({credential:cert(serviceAccountKey)});
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-if (db) {
+if (db && storage) {
   console.log("Firebase initialized successfully");
+} else {
+  throw new Error("Failed to initialise firebase");
 }
 
-export { db };
+export { db, storage };
