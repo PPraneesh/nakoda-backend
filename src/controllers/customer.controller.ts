@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { appendOrUpdateRow } from "../services/sheets.service";
+import { db } from "../config/firebase";
 import { StoreData } from "../types";
 
 const setCustomerData = async (req: Request, res: Response): Promise<void> => {
@@ -12,27 +12,14 @@ const setCustomerData = async (req: Request, res: Response): Promise<void> => {
         }
 
         customerData.contactAsked = customerData.contactAsked === true;
-
-        const values = [[
-            customerData.customerId,
-            customerData?.email || '',
-            customerData?.name || '',
-            customerData?.phno || '',
-            JSON.stringify(customerData.cartIds),
-            JSON.stringify(customerData.wishlistIds),
-            JSON.stringify(customerData.visitedProducts),
-            customerData.engagement["timeOnSite"],
-            customerData.engagement["pageViews"],
-            customerData.engagement["clickThroughRate"],
-            customerData.location['x'],
-            customerData.location['y'],
-            customerData.locale,
-            customerData.lastVisited,
-            customerData.referralSource,
-            customerData.contactAsked
-        ]];
-
-        const response = await appendOrUpdateRow(values);
+        const values = {
+            email: customerData?.email || '',
+            name: customerData?.name || '',
+            phno: customerData?.phno || '',
+            ...customerData
+        };
+            
+        const response = await db.collection("customer_data").doc(values.customerId).set(values);
         res.status(200).json({ success: true, data: response });
     } catch (error) {
         console.error('Controller error:', error);

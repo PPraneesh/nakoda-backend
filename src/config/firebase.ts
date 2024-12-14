@@ -1,21 +1,18 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp, cert, ServiceAccount } from 'firebase-admin/app';
+import { getFirestore } from "firebase-admin/firestore";
 import { env } from "./env";
 
-const firebaseConfig = {
-  apiKey: env.FIREBASE_API_KEY,
-  authDomain: env.FIREBASE_AUTH_DOMAIN,
-  projectId: env.FIREBASE_PROJECT_ID,
-  storageBucket: env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: env.FIREBASE_APP_ID,
-  measurementId: env.FIREBASE_MEASUREMENT_ID,
-};
+const serviceAccountKey:ServiceAccount = {
+    projectId: env.FIREBASE_PROJECT_ID,
+    privateKey: env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    clientEmail: env.FIREBASE_CLIENT_EMAIL
+}
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-if (app && db) {
+initializeApp({credential:cert(serviceAccountKey)});
+const db = getFirestore();
+
+if (db) {
   console.log("Firebase initialized successfully");
 }
 
