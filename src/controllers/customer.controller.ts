@@ -17,7 +17,7 @@ const setCustomerData = async (req: Request, res: Response): Promise<void> => {
             customerData.customerId,
             customerData?.email || '',
             customerData?.name || '',
-            customerData?.phno || '',
+            customerData?.phone || '',
             JSON.stringify(customerData.cartIds),
             JSON.stringify(customerData.wishlistIds),
             JSON.stringify(customerData.visitedProducts),
