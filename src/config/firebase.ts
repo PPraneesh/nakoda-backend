@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { env } from "./env";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: env.FIREBASE_API_KEY,
@@ -14,9 +15,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-if (app && db) {
+if (app && db && storage) {
   console.log("Firebase initialized successfully");
+} else {
+  throw new Error("Failed to initialise firebase");
 }
 
-export { db };
+export { db, storage };
