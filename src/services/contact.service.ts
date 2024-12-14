@@ -1,14 +1,13 @@
 import { db } from "../config/firebase";
 import { ContactRequestTypes } from "../types";
-import { collection, doc, setDoc } from "firebase/firestore";
 import { randomUUID } from "node:crypto";
 
 const contactService = async (data: ContactRequestTypes): Promise<boolean> => {
   try {
-    const coll = collection(db, "contact");
+    const collection = db.collection("contact");
     const id = randomUUID();
-    const docRef = doc(coll, id);
-    await setDoc(docRef, data);
+    const docRef = collection.doc(id);
+    await docRef.set(data);
     return true;
   } catch (error) {
     console.error("Error saving contact:", error);

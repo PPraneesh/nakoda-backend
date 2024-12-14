@@ -1,7 +1,6 @@
 import { db } from "../config/firebase";
 // import { storage } from "../config/firebase";
 import { CustomizeRequestTypes } from "../types";
-import { collection, doc, setDoc } from "firebase/firestore";
 // import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { randomUUID } from "node:crypto";
 
@@ -9,9 +8,9 @@ const customizeService = async (
   data: CustomizeRequestTypes
 ): Promise<boolean> => {
   try {
-    const coll = collection(db, "customize");
+    const collection = db.collection("customize");
     const id = randomUUID();
-    const docRef = doc(coll, id);
+    const docRef = collection.doc(id);
 
     // let fileUrl = null;
     // if (data.file) {
@@ -21,6 +20,7 @@ const customizeService = async (
     // }
 
     const customizeData = {
+      id: id,
       name: data.name,
       email: data.email,
       phone: data.phone,
@@ -31,8 +31,7 @@ const customizeService = async (
       createdAt: new Date().toISOString(),
     };
 
-    await setDoc(docRef, customizeData);
-
+    const response = await docRef.set(customizeData);
     return true;
   } catch (error) {
     console.error("Error saving customization request:", error);
