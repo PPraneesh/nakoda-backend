@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/goldrate", expressAsyncHandler(getGoldRate));
-app.post("/customer", expressAsyncHandler(setCustomerData));
+app.post("/analytics", expressAsyncHandler(setCustomerData));
 app.post("/contact", expressAsyncHandler(postContact));
 app.post("/customize", expressAsyncHandler(postCustomize));
 
