@@ -21,6 +21,7 @@ interface CustomizeRequestTypes {
   email: string;
   phone: string;
   comments: string;
+  budget: string;
   productId?: string | null;
   file?: File | null;
   createdAt: string;

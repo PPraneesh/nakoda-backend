@@ -24,6 +24,7 @@ const customizeService = async (
       name: data.name,
       email: data.email,
       phone: data.phone,
+      budget: data.budget,
       comments: data.comments,
       productId: data.productId || null,
       // fileUrl,

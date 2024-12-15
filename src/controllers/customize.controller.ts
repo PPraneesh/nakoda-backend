@@ -6,16 +6,6 @@ import { customizeService } from "../services/customize.service";
 
 const postCustomize = async (req: Request, res: Response): Promise<any> => {
   const { formData: data } = req.body;
-  const { name, email, phone, comments, productId, file } = data;
-  const customizeData: CustomizeRequestTypes = {
-    name,
-    email,
-    phone,
-    comments,
-    productId,
-    file,
-    createdAt: new Date().toISOString(),
-  };
 
   const status = await customizeService(data);
   if (status) {
