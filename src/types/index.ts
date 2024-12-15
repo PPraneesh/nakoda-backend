@@ -1,4 +1,4 @@
-interface StoreData {
+interface CustomerTypes {
   customerId: string;
   email?: string;
   name?: string;
@@ -6,20 +6,15 @@ interface StoreData {
   cartIds: string[];
   wishlistIds: string[];
   visitedProducts: string[];
-  engagement: {
-    timeOnSite: number;
-    pageViews: number;
-    clickThroughRate: number;
-  };
+  pagesViewed: string[];
   location: {
     x: string;
     y: string;
   };
   locale: string;
-  lastVisited: string;
-  referralSource: string;
   contactAsked: boolean;
 }
+
 
 interface CustomizeRequestTypes {
   name: string;
@@ -41,4 +36,4 @@ interface ContactRequestTypes {
   createdAt: string;
 }
 
-export { StoreData, CustomizeRequestTypes, ContactRequestTypes };
+export { CustomerTypes, CustomizeRequestTypes, ContactRequestTypes };

@@ -1,30 +1,23 @@
 import { db } from "../config/firebase";
+import { CustomerTypes } from "../types";
 
-import { StoreData } from "../types";
+const customerService = async (data: CustomerTypes): Promise<boolean> => {
+  try {
+    const docRef = db.collection("customer").doc(data.customerId);
+    const res = await docRef.get();
 
-const customerService = async (data:StoreData) =>{
-    try {
-        const customerData: StoreData = data;
-        
-        if (!customerData.customerId) {
-            return false
-        }
-
-        customerData.contactAsked = customerData.contactAsked === true;
-        const values = {
-            email: customerData?.email || '',
-            name: customerData?.name || '',
-            phno: customerData?.phone || '',
-            ...customerData
-        };
-            
-        const response = await db.collection("customer_data").doc(values.customerId).set(values);
-        console.info("response ",response);
-        return true;
-    }catch(error){
-        console.error(error);
-        return false;
+    if (res.exists) {
+      await docRef.update({ ...data });
+      console.log("Document updated");
+    } else {
+      await docRef.set(data);
+      console.log("Document created");
     }
-}
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
 
-export {customerService}
+export { customerService };

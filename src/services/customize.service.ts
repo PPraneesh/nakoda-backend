@@ -31,7 +31,7 @@ const customizeService = async (
       createdAt: new Date().toISOString(),
     };
 
-    const response = await docRef.set(customizeData);
+    await docRef.set(customizeData);
     return true;
   } catch (error) {
     console.error("Error saving customization request:", error);
