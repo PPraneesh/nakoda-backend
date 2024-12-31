@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { ContactRequestTypes } from "../types";
-import { contactService } from "../services/contact.service";
+import { db } from "../config/firebase";
+import { randomUUID } from "node:crypto";
+import { env } from "../config/env";
 
-// from contact.tsx page - name, email, phone, reason, message
-// from popupcontact.tsx - name, email, phone, lookingFor
 
+// POST: /contact
 const postContact = async (req: Request, res: Response): Promise<any> => {
   const { source } = req.body;
-  let data: ContactRequestTypes;
+  let data;
   if (source === "contact") {
     const { name, email, phone, reason, message } = req.body;
     data = {
@@ -29,11 +29,20 @@ const postContact = async (req: Request, res: Response): Promise<any> => {
     };
   }
 
-  const status = await contactService(data);
-  if (!status) {
-    return res.send({ success: false, message: "Failed to send data" });
+  try {
+    const collection = db.collection(env.CONTACT_COLLECTION_NAME);
+    const id = randomUUID();
+    const docRef = collection.doc(id);
+    await docRef.set(data);
+    return res
+      .status(200)
+      .send({ success: true, message: "Data sent successfully" });
+  } catch (error) {
+    console.error("Error saving contact:", error);
+    return res
+      .status(500)
+      .send({ success: false, message: "Failed to send data" });
   }
-  return res.send({ success: true, message: "Data sent successfully" });
 };
 
 export { postContact };
