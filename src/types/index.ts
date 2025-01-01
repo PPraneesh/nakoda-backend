@@ -15,26 +15,24 @@ interface CustomerTypes {
   contactAsked: boolean;
 }
 
-
-interface CustomizeRequestTypes {
+interface ProductTypes {
+  id: string;
   name: string;
-  email: string;
-  phone: string;
-  comments: string;
-  budget: string;
-  productId?: string | null;
-  file?: File | null;
-  createdAt: string;
+  link: string; // if product name is "gold ring" then link should be "gold-ring-nk101"
+  description: string;
+  priceRange: string;
+  images: string[];
+  gender: string;
+  metal: string;
+  gemstone?: string[];
+  category: string[];
+  occasion?: string[];
+  metalColor?: "yellow" | "white" | "rose";
+  purity?: "18KT" | "22KT" | "24KT" | string;
+  weight?: number;
+  size?: string;
+  sourceLink?: string;
+  isDeleted: boolean;
 }
 
-interface ContactRequestTypes {
-  name: string;
-  email: string;
-  phone: string;
-  lookingFor?: string;
-  reason?: string;
-  message?: string;
-  createdAt: string;
-}
-
-export { CustomerTypes, CustomizeRequestTypes, ContactRequestTypes };
+export { CustomerTypes, ProductTypes };
